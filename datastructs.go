@@ -7,7 +7,7 @@ type certificate struct {
 	OwnerID   string
 	Year      int
 	Note      string
-	Transfer  transfer
+	//Transfer  transfer
 }
 
 type transfer struct {
