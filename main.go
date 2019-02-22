@@ -13,6 +13,7 @@ import (
 var CertificateDB []certificate
 
 func Certificate(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 	if r.Method == "POST" {
 		//TODO check cert with id exists?
 
@@ -41,6 +42,23 @@ func Certificate(w http.ResponseWriter, r *http.Request) {
 
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "Cert Posted")
+	}
+
+	if r.Method == "DELETE" {
+		for i, cert := range CertificateDB {
+
+			if cert.ID == vars["id"] {
+				CertificateDB = append(CertificateDB[:i], CertificateDB[i+1:]...)
+				w.WriteHeader(http.StatusOK)
+				return
+			}
+		}
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if r.Method == "PATCH" {
+
 	}
 }
 
