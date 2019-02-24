@@ -159,7 +159,6 @@ func loadElement(userID string) {
 	handler := http.HandlerFunc(Certificate)
 
 	handler.ServeHTTP(rr, req)
-
 }
 
 func reset() {
