@@ -4,16 +4,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
-var CertificateDB []certificate
+var CertificateDB []Certificate
 
-func Certificate(w http.ResponseWriter, r *http.Request) {
+func CertificateHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	if r.Method == "POST" {
 		body, err := ioutil.ReadAll(r.Body)
@@ -47,7 +48,7 @@ func PostCert(w http.ResponseWriter, body []byte, owner string) error {
 	fmt.Println(string(body))
 	fmt.Println(owner) //TODO write owner to cert
 
-	var newCert certificate
+	var newCert Certificate
 	err := json.Unmarshal(body, &newCert)
 	if err != nil {
 		fmt.Println("error: ", err)
@@ -84,7 +85,7 @@ func DeleteCert(id string, w http.ResponseWriter) error {
 
 func UserCertificates(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	var matchingUserCertificates []certificate
+	var matchingUserCertificates []Certificate
 	for _, cert := range CertificateDB {
 		if cert.OwnerID == vars["userId"] {
 			matchingUserCertificates = append(matchingUserCertificates, cert)
@@ -112,7 +113,7 @@ func Reset(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/certificates/{id:[0-9a-zA-Z]+}", Certificate).Methods("POST", "DELETE", "PATCH")
+	router.HandleFunc("/certificates/{id:[0-9a-zA-Z]+}", CertificateHandler).Methods("POST", "DELETE", "PATCH")
 	router.HandleFunc("/certificates/{id:[0-9a-zA-Z]+}/transfer", CertificateTransfer).Methods("PATCH")
 	router.HandleFunc("/users/{userId:[0-9a-zA-Z]+}/certificates", UserCertificates).Methods("GET")
 	router.HandleFunc("/reset", Reset) //Debug helper method in lieu of test database

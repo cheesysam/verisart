@@ -1,6 +1,6 @@
 package main
 
-type certificate struct {
+type Certificate struct {
 	ID        string
 	Title     string
 	CreatedAt int //TODO date type
@@ -10,12 +10,12 @@ type certificate struct {
 	//Transfer  transfer
 }
 
-type transfer struct {
+type Transfer struct {
 	To     string
 	Status string
 }
 
-type user struct {
+type User struct {
 	Id    string
 	Email string
 	Name  string

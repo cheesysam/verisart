@@ -3,10 +3,11 @@ package main
 import (
 	"bytes"
 	"errors"
-	"github.com/gorilla/mux"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/gorilla/mux"
 )
 
 // TODO test for owner header set
@@ -20,7 +21,7 @@ func TestCertificateHandlerPost(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(Certificate)
+	handler := http.HandlerFunc(CertificateHandler)
 
 	handler.ServeHTTP(rr, req)
 
@@ -45,7 +46,7 @@ func TestCertificateHandlerPostBadJSON(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(Certificate)
+	handler := http.HandlerFunc(CertificateHandler)
 
 	handler.ServeHTTP(rr, req)
 
@@ -61,7 +62,7 @@ func TestDeleteCertificateDoesntExist(t *testing.T) {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(Certificate)
+	handler := http.HandlerFunc(CertificateHandler)
 
 	handler.ServeHTTP(rr, req)
 
@@ -79,7 +80,7 @@ func TestDeleteCertificateDoesExist(t *testing.T) {
 	}
 	req = mux.SetURLVars(req, map[string]string{"id": "1"})
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(Certificate)
+	handler := http.HandlerFunc(CertificateHandler)
 
 	handler.ServeHTTP(rr, req)
 
@@ -98,7 +99,7 @@ func TestPatchCertificateDoesExist(t *testing.T) {
 	}
 	req = mux.SetURLVars(req, map[string]string{"id": "1"})
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(Certificate)
+	handler := http.HandlerFunc(CertificateHandler)
 
 	handler.ServeHTTP(rr, req)
 }
@@ -156,7 +157,7 @@ func loadElement(userID string) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(Certificate)
+	handler := http.HandlerFunc(CertificateHandler)
 
 	handler.ServeHTTP(rr, req)
 }
